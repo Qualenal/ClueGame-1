@@ -21,6 +21,7 @@ public class Board {
     public Map<BoardCell, LinkedList<BoardCell>> adjMtx = new LinkedHashMap<BoardCell, LinkedList<BoardCell>>(); // =
     private LinkedList<BoardCell> targets = new LinkedList<BoardCell>();
     private LinkedList<BoardCell> visited = new LinkedList<BoardCell>();
+    private BoardCell startingCell;
 
     public Board() {
 	rooms = new LinkedHashMap<Character, String>();
@@ -82,33 +83,23 @@ public class Board {
 
     public void recursiveTargets(int row, int col, int diceRoll) {
 	visited.add(getCellAt(row, col));
-	System.out.println("Visited(+): " + visited);
 	findAllTargets(getCellAt(row, col), diceRoll);
     }
 
     public void findAllTargets(BoardCell thisCell, int numSteps) {
 	LinkedList<BoardCell> adjacentCells = getAdjList(thisCell.row,
 		thisCell.col);
-	// for (int i = 0; i < adjacentCells.size(); i++) {
-	// BoardCell adjCell = adjacentCells.get(i);
-	// if (numSteps == 1 /* && !visited.contains(adjCell) */) {
-	// targets.add(adjCell);
-	// } else {
-	// recursiveTargets(adjCell.row, adjCell.col, numSteps - 1);
-	// }
-	// visited.remove(adjCell);
-	// }
-	for (BoardCell cell : adjacentCells) {
+	for (int i = 0; i < adjacentCells.size(); i++) {
+	    BoardCell adjCell = adjacentCells.get(i);
 	    if (numSteps == 1) {
-		if (!visited.contains(cell)) {
-		    targets.add(cell);
-		    System.out.println("Targets: " + targets);
+		targets.add(adjCell);
+		if (targets.contains(startingCell)) {
+		    targets.remove(startingCell);
 		}
 	    } else {
-		recursiveTargets(thisCell.row, thisCell.col, numSteps - 1);
+		recursiveTargets(adjCell.row, adjCell.col, numSteps - 1);
 	    }
-	    visited.remove(cell);
-	    System.out.println("Visited(-): " + visited);
+	    visited.remove(adjCell);
 	}
     }
 
@@ -116,9 +107,7 @@ public class Board {
 	targets = new LinkedList<BoardCell>();
 	visited = new LinkedList<BoardCell>();
 	visited.add(getCellAt(row, col));
-	System.out.println("Targets(0): " + targets);
-	System.out.println("Visited(0): " + visited);
-	System.out.println();
+	startingCell = getCellAt(row, col);
 	findAllTargets(getCellAt(row, col), diceRoll);
     }
 
