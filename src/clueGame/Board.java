@@ -13,182 +13,194 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Board {
-    public BoardCell[][] grid;
-    private Map<Character, String> rooms;
-    private int numRows;
-    private int numColumns;
+	public BoardCell[][] grid;
+	private Map<Character, String> rooms;
+	private int numRows;
+	private int numColumns;
 
-    public Map<BoardCell, LinkedList<BoardCell>> adjMtx = new LinkedHashMap<BoardCell, LinkedList<BoardCell>>(); // =
-    private LinkedList<BoardCell> targets = new LinkedList<BoardCell>();
-    private LinkedList<BoardCell> visited = new LinkedList<BoardCell>();
-    private BoardCell startingCell;
+	public Map<BoardCell, LinkedList<BoardCell>> adjMtx = new LinkedHashMap<BoardCell, LinkedList<BoardCell>>(); // =
+	private LinkedList<BoardCell> targets = new LinkedList<BoardCell>();
+	private LinkedList<BoardCell> visited = new LinkedList<BoardCell>();
+	private BoardCell startingCell;
 
-    public Board() {
-	rooms = new LinkedHashMap<Character, String>();
-	numRows = 0;
-	numColumns = 0;
-    }
-
-    public BoardCell getCellAt(int row, int col) {
-	if (row == -1 || col == -1 || row + 1 > numRows || col + 1 > numColumns) {
-	    return null;
+	public Board() {
+		rooms = new LinkedHashMap<Character, String>();
+		numRows = 0;
+		numColumns = 0;
 	}
-	return grid[row][col];
-    }
 
-    public void calcAdjacencies() {
-	for (int row = 0; row < numRows; row++) {
-	    for (int col = 0; col < numColumns; col++) {
-		LinkedList<BoardCell> tempList = new LinkedList<BoardCell>();
-
-		if (getCellAt(row, col).isWalkway()
-			|| getCellAt(row, col).isDoorway()) {
-		    if (getCellAt(row - 1, col) != null) {
-			if (getCellAt(row - 1, col).isWalkway()
-				|| (getCellAt(row - 1, col).cellName.length() == 2 && getCellAt(
-					row - 1, col).cellName.endsWith("D"))) {
-			    tempList.add(getCellAt(row - 1, col));
-			}
-		    }
-
-		    if (getCellAt(row + 1, col) != null) {
-			if (getCellAt(row + 1, col).isWalkway()
-				|| (getCellAt(row + 1, col).cellName.length() == 2 && getCellAt(
-					row + 1, col).cellName.endsWith("U"))) {
-			    tempList.add(getCellAt(row + 1, col));
-			}
-		    }
-
-		    if (getCellAt(row, col - 1) != null) {
-			if (getCellAt(row, col - 1).isWalkway()
-				|| (getCellAt(row, col - 1).cellName.length() == 2 && getCellAt(
-					row, col - 1).cellName.endsWith("R"))) {
-			    tempList.add(getCellAt(row, col - 1));
-			}
-		    }
-
-		    if (getCellAt(row, col + 1) != null) {
-			if (getCellAt(row, col + 1).isWalkway()
-				|| (getCellAt(row, col + 1).cellName.length() == 2 && getCellAt(
-					row, col + 1).cellName.endsWith("L"))) {
-			    tempList.add(getCellAt(row, col + 1));
-			}
-		    }
+	public BoardCell getCellAt(int row, int col) {
+		if (row == -1 || col == -1 || row + 1 > numRows || col + 1 > numColumns) {
+			return null;
 		}
-
-		adjMtx.put(getCellAt(row, col), tempList);
-	    }
+		return grid[row][col];
 	}
-    }
 
-    public void recursiveTargets(int row, int col, int diceRoll) {
-	visited.add(getCellAt(row, col));
-	findAllTargets(getCellAt(row, col), diceRoll);
-    }
+	public void calcAdjacencies() {
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				LinkedList<BoardCell> tempList = new LinkedList<BoardCell>();
 
-    public void findAllTargets(BoardCell thisCell, int numSteps) {
-	LinkedList<BoardCell> adjacentCells = getAdjList(thisCell.row,
-		thisCell.col);
-	for (int i = 0; i < adjacentCells.size(); i++) {
-	    BoardCell adjCell = adjacentCells.get(i);
-	    if (numSteps == 1) {
-		targets.add(adjCell);
-		if (targets.contains(startingCell)) {
-		    targets.remove(startingCell);
+				if (getCellAt(row, col).isWalkway()
+						|| getCellAt(row, col).isDoorway()) {
+					if (getCellAt(row - 1, col) != null) {
+						if (getCellAt(row - 1, col).isWalkway()
+								|| (getCellAt(row - 1, col).cellName.length() == 2 && getCellAt(
+										row - 1, col).cellName.endsWith("D"))) {
+							tempList.add(getCellAt(row - 1, col));
+						}
+					}
+
+					if (getCellAt(row + 1, col) != null) {
+						if (getCellAt(row + 1, col).isWalkway()
+								|| (getCellAt(row + 1, col).cellName.length() == 2 && getCellAt(
+										row + 1, col).cellName.endsWith("U"))) {
+							tempList.add(getCellAt(row + 1, col));
+						}
+					}
+
+					if (getCellAt(row, col - 1) != null) {
+						if (getCellAt(row, col - 1).isWalkway()
+								|| (getCellAt(row, col - 1).cellName.length() == 2 && getCellAt(
+										row, col - 1).cellName.endsWith("R"))) {
+							tempList.add(getCellAt(row, col - 1));
+						}
+					}
+
+					if (getCellAt(row, col + 1) != null) {
+						if (getCellAt(row, col + 1).isWalkway()
+								|| (getCellAt(row, col + 1).cellName.length() == 2 && getCellAt(
+										row, col + 1).cellName.endsWith("L"))) {
+							tempList.add(getCellAt(row, col + 1));
+						}
+					}
+				}
+
+				adjMtx.put(getCellAt(row, col), tempList);
+			}
 		}
-	    } else {
-		recursiveTargets(adjCell.row, adjCell.col, numSteps - 1);
-	    }
-	    visited.remove(adjCell);
 	}
-    }
 
-    public void calcTargets(int row, int col, int diceRoll) {
-	targets = new LinkedList<BoardCell>();
-	visited = new LinkedList<BoardCell>();
-	visited.add(getCellAt(row, col));
-	startingCell = getCellAt(row, col);
-	findAllTargets(getCellAt(row, col), diceRoll);
-    }
-
-    public Set<BoardCell> getTargets() {
-	return new HashSet<BoardCell>(targets);
-    }
-
-    public LinkedList<BoardCell> getAdjList(int row, int col) {
-	return adjMtx.get(getCellAt(row, col));
-    }
-
-    public void loadBoardConfig() throws BadConfigFormatException {
-	Scanner foo = null;
-	try {
-	    foo = new Scanner(new File(ClueGame.csv));
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	}
-	List<BoardCell> list = new ArrayList<BoardCell>();
-	Set<Integer> aSet = new LinkedHashSet<Integer>();
-	int rows = 0;
-	int cols = 0;
-	while (foo.hasNextLine()) {
-	    String line = foo.nextLine();
-	    String[] bar = line.split(",");
-
-	    cols = bar.length;
-	    aSet.add(cols);
-	    for (int i = 0; i < cols; i++) {
-		if (!rooms.containsKey(bar[i].charAt(0))) {
-		    throw new BadConfigFormatException();
-		}
-		if (bar[i].equals("W")) {
-		    list.add(new WalkwayCell(rows, i));
+	public boolean isDeadEnd(BoardCell thisCell) {
+		LinkedList<BoardCell> adjacentCells = getAdjList(thisCell.row,
+				thisCell.col);
+		if (adjacentCells.size() == 1 && !thisCell.isDoorway()) {
+			return true;
 		} else {
-		    list.add(new RoomCell(rows, i, bar[i]));
+			return false;
 		}
-	    }
-	    rows++;
 	}
-	foo.close();
-	if (aSet.size() != 1) {
-	    throw new BadConfigFormatException();
+
+	public void recursiveTargets(int row, int col, int diceRoll) {
+		visited.add(getCellAt(row, col));
+		findAllTargets(getCellAt(row, col), diceRoll);
 	}
-	numColumns = cols;
-	numRows = rows;
 
-	grid = new BoardCell[numRows][numColumns];
-	for (int i = 0; i < numRows; i++) {
-	    for (int j = 0; j < numColumns; j++) {
-		grid[i][j] = list.get((i * numColumns) + j);
-	    }
+	public void findAllTargets(BoardCell thisCell, int numSteps) {
+		LinkedList<BoardCell> adjacentCells = getAdjList(thisCell.row,
+				thisCell.col);
+		for (int i = 0; i < adjacentCells.size(); i++) {
+			BoardCell adjCell = adjacentCells.get(i);
+			if (numSteps == 1 || (numSteps >= 1 && adjCell.isDoorway())) {
+				if (!isDeadEnd(adjCell)) {
+					targets.add(adjCell);
+				}
+				if (targets.contains(startingCell)) {
+					targets.remove(startingCell);
+				}
+			} else {
+				recursiveTargets(adjCell.row, adjCell.col, numSteps - 1);
+			}
+			visited.remove(adjCell);
+		}
 	}
-    }
 
-    public RoomCell getRoomCellAt(int rows, int cols) {
-	return (RoomCell) grid[rows][cols];
-    }
+	public void calcTargets(int row, int col, int diceRoll) {
+		targets = new LinkedList<BoardCell>();
+		visited = new LinkedList<BoardCell>();
+		visited.add(getCellAt(row, col));
+		startingCell = getCellAt(row, col);
+		findAllTargets(getCellAt(row, col), diceRoll);
+	}
 
-    public Map<Character, String> getRooms() {
-	return rooms;
-    }
+	public Set<BoardCell> getTargets() {
+		return new HashSet<BoardCell>(targets);
+	}
 
-    public void setRooms(Map<Character, String> rooms) {
-	this.rooms = rooms;
-    }
+	public LinkedList<BoardCell> getAdjList(int row, int col) {
+		return adjMtx.get(getCellAt(row, col));
+	}
 
-    public int getNumRows() {
-	return numRows;
-    }
+	public void loadBoardConfig() throws BadConfigFormatException {
+		Scanner foo = null;
+		try {
+			foo = new Scanner(new File(ClueGame.csv));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		List<BoardCell> list = new ArrayList<BoardCell>();
+		Set<Integer> aSet = new LinkedHashSet<Integer>();
+		int rows = 0;
+		int cols = 0;
+		while (foo.hasNextLine()) {
+			String line = foo.nextLine();
+			String[] bar = line.split(",");
 
-    public void setNumRows(int numRows) {
-	this.numRows = numRows;
-    }
+			cols = bar.length;
+			aSet.add(cols);
+			for (int i = 0; i < cols; i++) {
+				if (!rooms.containsKey(bar[i].charAt(0))) {
+					throw new BadConfigFormatException();
+				}
+				if (bar[i].equals("W")) {
+					list.add(new WalkwayCell(rows, i));
+				} else {
+					list.add(new RoomCell(rows, i, bar[i]));
+				}
+			}
+			rows++;
+		}
+		foo.close();
+		if (aSet.size() != 1) {
+			throw new BadConfigFormatException();
+		}
+		numColumns = cols;
+		numRows = rows;
 
-    public int getNumColumns() {
-	return numColumns;
-    }
+		grid = new BoardCell[numRows][numColumns];
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numColumns; j++) {
+				grid[i][j] = list.get((i * numColumns) + j);
+			}
+		}
+	}
 
-    public void setNumColumns(int numColumns) {
-	this.numColumns = numColumns;
-    }
+	public RoomCell getRoomCellAt(int rows, int cols) {
+		return (RoomCell) grid[rows][cols];
+	}
+
+	public Map<Character, String> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(Map<Character, String> rooms) {
+		this.rooms = rooms;
+	}
+
+	public int getNumRows() {
+		return numRows;
+	}
+
+	public void setNumRows(int numRows) {
+		this.numRows = numRows;
+	}
+
+	public int getNumColumns() {
+		return numColumns;
+	}
+
+	public void setNumColumns(int numColumns) {
+		this.numColumns = numColumns;
+	}
 
 }
