@@ -182,11 +182,6 @@ public class CR_BoardAdjTargetTests {
 	board.calcTargets(21, 7, 2);
 	Set<BoardCell> targets = board.getTargets();
 
-	// for (Entry<BoardCell, LinkedList<BoardCell>> e : board.adjMtx
-	// .entrySet()) {
-	// System.out.println(e.getKey() + " => " + e.getValue());
-	// }
-
 	Assert.assertEquals(2, targets.size());
 	Assert.assertTrue(targets.contains(board.getCellAt(19, 7)));
 	Assert.assertTrue(targets.contains(board.getCellAt(20, 6)));

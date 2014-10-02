@@ -21,7 +21,6 @@ public class Board {
     public Map<BoardCell, LinkedList<BoardCell>> adjMtx = new LinkedHashMap<BoardCell, LinkedList<BoardCell>>(); // =
     private LinkedList<BoardCell> targets = new LinkedList<BoardCell>();
     private LinkedList<BoardCell> visited = new LinkedList<BoardCell>();
-    private LinkedList<BoardCell> path = new LinkedList<BoardCell>();
 
     public Board() {
 	rooms = new LinkedHashMap<Character, String>();

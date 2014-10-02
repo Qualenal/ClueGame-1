@@ -9,8 +9,8 @@ public class RoomCell extends BoardCell {
 	UP, DOWN, LEFT, RIGHT, NONE
     };
 
-    private DoorDirection doorDirection;
-    private char roomInitial;
+//    private DoorDirection doorDirection;
+//    private char roomInitial;
 
     public boolean isRoom() {
 	return true;
