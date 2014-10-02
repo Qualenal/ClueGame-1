@@ -30,8 +30,7 @@ public abstract class BoardCell {
 
     @Override
     public String toString() {
-	return "BoardCell [aString=" + cellName + ", row=" + row + ", col="
-		+ col + "]";
+	return "(" + row + ", " + col + ")" + " " + cellName;
     }
 
     public void draw() {

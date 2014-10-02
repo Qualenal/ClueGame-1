@@ -45,7 +45,7 @@ public class CR_BoardAdjTargetTests {
 	testList = board.getAdjList(5, 20);
 	Assert.assertEquals(0, testList.size());
     }
-/*
+
     // Ensure that the adjacency list from a doorway is only the
     // walkway. NOTE: This test could be merged with door
     // direction test.
@@ -181,6 +181,12 @@ public class CR_BoardAdjTargetTests {
     public void testTargetsTwoSteps() {
 	board.calcTargets(21, 7, 2);
 	Set<BoardCell> targets = board.getTargets();
+
+	// for (Entry<BoardCell, LinkedList<BoardCell>> e : board.adjMtx
+	// .entrySet()) {
+	// System.out.println(e.getKey() + " => " + e.getValue());
+	// }
+
 	Assert.assertEquals(2, targets.size());
 	Assert.assertTrue(targets.contains(board.getCellAt(19, 7)));
 	Assert.assertTrue(targets.contains(board.getCellAt(20, 6)));
@@ -300,5 +306,5 @@ public class CR_BoardAdjTargetTests {
 	Assert.assertTrue(targets.contains(board.getCellAt(5, 19)));
 	Assert.assertTrue(targets.contains(board.getCellAt(4, 18)));
     }
-*/
+
 }

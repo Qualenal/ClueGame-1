@@ -18,9 +18,10 @@ public class Board {
     private int numRows;
     private int numColumns;
 
-    private Map<BoardCell, LinkedList<BoardCell>> adjMtx = new LinkedHashMap<BoardCell, LinkedList<BoardCell>>(); // =
+    public Map<BoardCell, LinkedList<BoardCell>> adjMtx = new LinkedHashMap<BoardCell, LinkedList<BoardCell>>(); // =
     private LinkedList<BoardCell> targets = new LinkedList<BoardCell>();
     private LinkedList<BoardCell> visited = new LinkedList<BoardCell>();
+    private LinkedList<BoardCell> path = new LinkedList<BoardCell>();
 
     public Board() {
 	rooms = new LinkedHashMap<Character, String>();
@@ -29,7 +30,7 @@ public class Board {
     }
 
     public BoardCell getCellAt(int row, int col) {
-	if(row == -1 || col == -1 || row + 1 > numRows || col + 1 > numColumns) {
+	if (row == -1 || col == -1 || row + 1 > numRows || col + 1 > numColumns) {
 	    return null;
 	}
 	return grid[row][col];
@@ -44,28 +45,32 @@ public class Board {
 			|| getCellAt(row, col).isDoorway()) {
 		    if (getCellAt(row - 1, col) != null) {
 			if (getCellAt(row - 1, col).isWalkway()
-				|| getCellAt(row - 1, col).cellName.endsWith("D")) {
+				|| (getCellAt(row - 1, col).cellName.length() == 2 && getCellAt(
+					row - 1, col).cellName.endsWith("D"))) {
 			    tempList.add(getCellAt(row - 1, col));
 			}
 		    }
 
 		    if (getCellAt(row + 1, col) != null) {
 			if (getCellAt(row + 1, col).isWalkway()
-				|| getCellAt(row + 1, col).cellName.endsWith("U")) {
+				|| (getCellAt(row + 1, col).cellName.length() == 2 && getCellAt(
+					row + 1, col).cellName.endsWith("U"))) {
 			    tempList.add(getCellAt(row + 1, col));
 			}
 		    }
 
 		    if (getCellAt(row, col - 1) != null) {
 			if (getCellAt(row, col - 1).isWalkway()
-				|| getCellAt(row, col - 1).cellName.endsWith("L")) {
+				|| (getCellAt(row, col - 1).cellName.length() == 2 && getCellAt(
+					row, col - 1).cellName.endsWith("R"))) {
 			    tempList.add(getCellAt(row, col - 1));
 			}
 		    }
 
 		    if (getCellAt(row, col + 1) != null) {
 			if (getCellAt(row, col + 1).isWalkway()
-				|| getCellAt(row, col + 1).cellName.endsWith("R")) {
+				|| (getCellAt(row, col + 1).cellName.length() == 2 && getCellAt(
+					row, col + 1).cellName.endsWith("L"))) {
 			    tempList.add(getCellAt(row, col + 1));
 			}
 		    }
@@ -76,28 +81,50 @@ public class Board {
 	}
     }
 
+    public void recursiveTargets(int row, int col, int diceRoll) {
+	visited.add(getCellAt(row, col));
+	System.out.println("Visited(+): " + visited);
+	findAllTargets(getCellAt(row, col), diceRoll);
+    }
+
     public void findAllTargets(BoardCell thisCell, int numSteps) {
 	LinkedList<BoardCell> adjacentCells = getAdjList(thisCell.row,
 		thisCell.col);
-	for (int i = 0; i < adjacentCells.size(); i++) {
-	    BoardCell adjCell = adjacentCells.get(i);
+	// for (int i = 0; i < adjacentCells.size(); i++) {
+	// BoardCell adjCell = adjacentCells.get(i);
+	// if (numSteps == 1 /* && !visited.contains(adjCell) */) {
+	// targets.add(adjCell);
+	// } else {
+	// recursiveTargets(adjCell.row, adjCell.col, numSteps - 1);
+	// }
+	// visited.remove(adjCell);
+	// }
+	for (BoardCell cell : adjacentCells) {
 	    if (numSteps == 1) {
-		targets.add(adjCell);
+		if (!visited.contains(cell)) {
+		    targets.add(cell);
+		    System.out.println("Targets: " + targets);
+		}
 	    } else {
-		calcTargets(adjCell.row, adjCell.col, numSteps - 1);
+		recursiveTargets(thisCell.row, thisCell.col, numSteps - 1);
 	    }
-	    visited.remove(adjCell);
+	    visited.remove(cell);
+	    System.out.println("Visited(-): " + visited);
 	}
     }
 
     public void calcTargets(int row, int col, int diceRoll) {
+	targets = new LinkedList<BoardCell>();
+	visited = new LinkedList<BoardCell>();
 	visited.add(getCellAt(row, col));
+	System.out.println("Targets(0): " + targets);
+	System.out.println("Visited(0): " + visited);
+	System.out.println();
 	findAllTargets(getCellAt(row, col), diceRoll);
     }
 
     public Set<BoardCell> getTargets() {
-	HashSet<BoardCell> targets = new HashSet<BoardCell>(this.targets);
-	return targets;
+	return new HashSet<BoardCell>(targets);
     }
 
     public LinkedList<BoardCell> getAdjList(int row, int col) {
