@@ -187,7 +187,6 @@ public class CR_BoardAdjTargetTests {
 
 		board.calcTargets(14, 0, 2);
 		targets = board.getTargets();
-		System.out.println(board.getTargets());
 		Assert.assertEquals(3, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(12, 0)));
 		Assert.assertTrue(targets.contains(board.getCellAt(14, 2)));
@@ -209,6 +208,9 @@ public class CR_BoardAdjTargetTests {
 		// Includes a path that doesn't have enough length
 		board.calcTargets(14, 0, 4);
 		targets = board.getTargets();
+
+		System.out.println(board.getTargets());
+
 		Assert.assertEquals(4, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(14, 4)));
 		Assert.assertTrue(targets.contains(board.getCellAt(15, 3)));

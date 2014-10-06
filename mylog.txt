@@ -1,0 +1,5 @@
+* All tests in target, except for TwoSteps, are working.
+* Updated the Target algorithm to remove the initial cell; Now passing some target tests.
+* Updated BadTestII and CR_BoardAdjTargetTests to contain unique tests. Formatting was also altered sleightly.
+* Now passing adjacency tests; Working on target tests and fixing target algorithm.
+* Initial commit.

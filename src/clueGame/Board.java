@@ -3,6 +3,7 @@ package clueGame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -20,8 +21,9 @@ public class Board {
 
 	public Map<BoardCell, LinkedList<BoardCell>> adjMtx = new LinkedHashMap<BoardCell, LinkedList<BoardCell>>(); // =
 	private LinkedList<BoardCell> targets = new LinkedList<BoardCell>();
-	private LinkedList<BoardCell> visited = new LinkedList<BoardCell>();
-	private BoardCell startingCell;
+	private boolean[][] visited;
+
+	// private BoardCell startingCell;
 
 	public Board() {
 		rooms = new LinkedHashMap<Character, String>();
@@ -81,45 +83,37 @@ public class Board {
 		}
 	}
 
-	public boolean isDeadEnd(BoardCell thisCell) {
-		LinkedList<BoardCell> adjacentCells = getAdjList(thisCell.row,
-				thisCell.col);
-		if (adjacentCells.size() == 1 && !thisCell.isDoorway()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+	private void findAllTargets(BoardCell thisCell, int numSteps) {
+		LinkedList<BoardCell> adjacentCells = new LinkedList<BoardCell>();
 
-	public void recursiveTargets(int row, int col, int diceRoll) {
-		visited.add(getCellAt(row, col));
-		findAllTargets(getCellAt(row, col), diceRoll);
-	}
-
-	public void findAllTargets(BoardCell thisCell, int numSteps) {
-		LinkedList<BoardCell> adjacentCells = getAdjList(thisCell.row,
-				thisCell.col);
-		for (int i = 0; i < adjacentCells.size(); i++) {
-			BoardCell adjCell = adjacentCells.get(i);
-			if (numSteps == 1 || (numSteps >= 1 && adjCell.isDoorway())) {
-				if (!isDeadEnd(adjCell)) {
-					targets.add(adjCell);
-				}
-				if (targets.contains(startingCell)) {
-					targets.remove(startingCell);
-				}
-			} else {
-				recursiveTargets(adjCell.row, adjCell.col, numSteps - 1);
+		for (BoardCell c : getAdjList(thisCell.row, thisCell.col)) {
+			if (visited[c.row][c.col] == false) {
+				adjacentCells.add(c);
 			}
-			visited.remove(adjCell);
+		}
+
+		for (BoardCell c : adjacentCells) {
+			visited[c.row][c.col] = true;
+
+			if (numSteps == 1) {
+				targets.add(c);
+			} else if (c.isDoorway()) {
+				targets.add(c);
+			} else {
+				findAllTargets(getCellAt(c.row, c.col), numSteps - 1);
+			}
+			visited[c.row][c.col] = false;
 		}
 	}
 
 	public void calcTargets(int row, int col, int diceRoll) {
 		targets = new LinkedList<BoardCell>();
-		visited = new LinkedList<BoardCell>();
-		visited.add(getCellAt(row, col));
-		startingCell = getCellAt(row, col);
+		visited = new boolean[numRows][numColumns];
+		for (boolean[] r : visited) {
+			Arrays.fill(r, false);
+		}
+
+		visited[row][col] = true;
 		findAllTargets(getCellAt(row, col), diceRoll);
 	}
 
