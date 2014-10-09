@@ -1,0 +1,25 @@
+PEOPLE
+Professor Plum
+Mr. Green
+Mrs. White
+Mrs. Peacock
+Miss Scarlet
+Colonel Mustard
+ROOMS
+Conservatory
+Kitchen
+Ballroom
+Billiard Room
+Library
+Study
+Dining Room
+Lounge
+WEAPONS
+Lead Pipe
+Pistol
+Knife
+Candlestick
+Wrench
+Poison
+Bat
+Shuriken
