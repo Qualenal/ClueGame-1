@@ -125,10 +125,10 @@ public class Board {
 		return adjMtx.get(getCellAt(row, col));
 	}
 
-	public void loadBoardConfig() throws BadConfigFormatException {
+	public void loadBoardConfig(String mapFile) throws BadConfigFormatException {
 		Scanner foo = null;
 		try {
-			foo = new Scanner(new File(ClueGame.csv));
+			foo = new Scanner(new File(mapFile));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

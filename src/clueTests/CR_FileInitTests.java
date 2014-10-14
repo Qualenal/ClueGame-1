@@ -120,7 +120,7 @@ public class CR_FileInitTests {
 	// My loadConfigFiles has a try/catch, so I can't call it directly to
 	// see test throwing the BadConfigFormatException
 	game.loadRoomConfig();
-	game.getBoard().loadBoardConfig();
+	game.getBoard().loadBoardConfig("ClueLayoutBadColumns.csv");
     }
 
      //Test that an exception is thrown for a bad config file
@@ -130,7 +130,7 @@ public class CR_FileInitTests {
       //overloaded Board ctor takes config file name
      ClueGame game = new ClueGame("ClueLayoutBadRoom.csv", "ClueLegend.txt");
      game.loadRoomConfig();
-     game.getBoard().loadBoardConfig();
+     game.getBoard().loadBoardConfig("ClueLayoutBadRoom.csv");
      }
 
     // Test that an exception is thrown for a bad config file
@@ -141,6 +141,6 @@ public class CR_FileInitTests {
      ClueGame game = new ClueGame("ClueLayout.csv",
      "ClueLegendBadFormat.txt");
      game.loadRoomConfig();
-     game.getBoard().loadBoardConfig();
+     game.getBoard().loadBoardConfig("ClueLayout.csv");
      }
 }
