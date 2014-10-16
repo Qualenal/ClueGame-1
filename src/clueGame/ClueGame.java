@@ -194,7 +194,16 @@ public class ClueGame {
 		} 
 	}
 	public boolean checkAccusation(Solution solution){
-		return false;
+		if (!this.solution.getPerson().equals(solution.getPerson())) 
+			return false;
+		
+		if(!this.solution.getRoom().equals(solution.getRoom()))
+			return false;
+		
+		if(!this.solution.getWeapon().equals(solution.getWeapon()))
+			return false;
+		
+		return true;
 	}
 	public ArrayList<Card> getDeck() {
 		return deck;
