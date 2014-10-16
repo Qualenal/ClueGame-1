@@ -16,7 +16,7 @@ public class CR_BoardAdjTargetTests {
 
 	@BeforeClass
 	public static void setUp() {
-		ClueGame game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
+		ClueGame game = new ClueGame("ClueLayout.csv", "ClueLegend.txt","ClueCards.txt","CluePlayers.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
 		board.calcAdjacencies();

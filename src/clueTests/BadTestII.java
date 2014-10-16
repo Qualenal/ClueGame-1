@@ -16,7 +16,7 @@ public class BadTestII {
 
     @BeforeClass
     public static void setUp() {
-	ClueGame game = new ClueGame("OurClueLayout.csv", "OurClueLegend.txt");
+	ClueGame game = new ClueGame("OurClueLayout.csv", "OurClueLegend.txt","ClueCards.txt","CluePlayers.txt");
 	game.loadConfigFiles();
 	board = game.getBoard();
 	board.calcAdjacencies();

@@ -21,7 +21,7 @@ public class GameSetupTests {
 
 	@BeforeClass
 	public static void setUp() {
-		game = new ClueGame("OurClueLayout.csv", "OurClueLegend.txt");
+		game = new ClueGame("OurClueLayout.csv", "OurClueLegend.txt","ClueCards.txt","CluePlayers.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
 		board.calcAdjacencies();
@@ -50,7 +50,9 @@ public class GameSetupTests {
 		Assert.assertEquals(NUM_ROOMS, counter);
 		
 		//Check to see if there are the right number of persons
+		counter = 0;
 		for(Card c : deck){
+			System.out.println(c.getName() + c.getType());
 			if(c.getType() == CardType.PERSON)
 				counter++;
 		}
@@ -61,7 +63,7 @@ public class GameSetupTests {
 		Assert.assertTrue(deck.contains(testRoom));
 		Card testWeapon = new Card("Knife" ,CardType.WEAPON);
 		Assert.assertTrue(deck.contains(testWeapon));
-		Card testPerson = new Card("Mrs.White" ,CardType.PERSON);
+		Card testPerson = new Card("Mrs. White" ,CardType.PERSON);
 		Assert.assertTrue(deck.contains(testPerson));
 	}
 

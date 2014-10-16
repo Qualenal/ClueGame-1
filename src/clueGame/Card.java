@@ -19,7 +19,7 @@ public class Card {
 		if(other == null || this.getClass() != other.getClass())
 			return false;
 		Card otherCard = (Card) other;
-		return this.name == otherCard.getName() &&
+		return this.name.equals(otherCard.getName()) &&
 				this.type == otherCard.getType();
 	}
 	public String getName() {

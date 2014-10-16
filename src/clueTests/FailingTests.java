@@ -26,7 +26,7 @@ public class FailingTests {
 
     @BeforeClass
     public static void setUp() {
-	ClueGame game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
+	ClueGame game = new ClueGame("OurClueLayout.csv", "OurClueLegend.txt","ClueCards.txt","CluePlayers.txt");
 	game.loadConfigFiles();
 	board = game.getBoard();
     }
@@ -95,7 +95,7 @@ public class FailingTests {
     public void testBadColumns() throws BadConfigFormatException,
 	    FileNotFoundException {
 	ClueGame game = new ClueGame("ClueLayoutBadColumns.csv",
-		"ClueLegend.txt");
+		"ClueLegend.txt","ClueCards.txt","CluePlayers.txt");
 	game.loadConfigFiles();
 //	game.getBoard().loadBoardConfig();
     }
@@ -103,7 +103,7 @@ public class FailingTests {
     @Test(expected = BadConfigFormatException.class)
     public void testBadRoom() throws BadConfigFormatException,
 	    FileNotFoundException {
-	ClueGame game = new ClueGame("ClueLayoutBadRoom.csv", "ClueLegend.txt");
+	ClueGame game = new ClueGame("ClueLayoutBadRoom.csv", "ClueLegend.txt","ClueCards.txt","CluePlayers.txt");
 	game.loadConfigFiles();
 //	game.getBoard().loadBoardConfig();
     }
@@ -112,7 +112,7 @@ public class FailingTests {
     public void testBadRoomFormat() throws BadConfigFormatException,
 	    FileNotFoundException {
 	ClueGame game = new ClueGame("ClueLayout.csv",
-		"ClueLegendBadFormat.txt");
+		"ClueLegendBadFormat.txt","ClueCards.txt","CluePlayers.txt");
 	game.loadConfigFiles();
 //	game.getBoard().loadBoardConfig();
     }
