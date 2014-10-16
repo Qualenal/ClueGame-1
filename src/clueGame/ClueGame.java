@@ -148,6 +148,9 @@ public class ClueGame {
 			players.add(npc);
 		}
 	}
+	public void deal(){
+		
+	}
 	public ArrayList<Card> getDeck() {
 		return deck;
 	}

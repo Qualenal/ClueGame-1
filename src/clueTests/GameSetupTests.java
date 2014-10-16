@@ -96,4 +96,37 @@ public class GameSetupTests {
 		Assert.assertEquals(4, player.getY());
 		Assert.assertEquals("PURPLE", player.getColor());
 	}
+	
+	@Test
+	public void testDeal(){
+		//Deal the cards
+		game.deal();
+		//Check that the deck is empty
+		Assert.assertTrue(game.getDeck().isEmpty());
+		//Number of Cars 22 / Number of Players 6, each player should get 3 to 4 cards
+		//Check to make sure each player has 3 or 4 cards
+		ArrayList<Player> players = game.getPlayers();
+		for(Player p : players){
+			ArrayList<Card> hand = p.getCards();
+			Assert.assertTrue(hand.size() == 3 || hand.size() == 4);
+		}
+		
+		//Check that the Knife only appears once in the hands of the players
+		Card testCard = new Card("Knife",CardType.WEAPON);
+		int counter = 0;
+		for(Player p : players){
+			if(p.getCards().contains(testCard))
+				counter++;
+		}
+		Assert.assertEquals(1, counter);
+		
+		//Check that Kitchen only appears once in the hands of the players
+		testCard = new Card("Kitchen", CardType.ROOM);
+		counter = 0;
+		for(Player p : players){
+			if(p.getCards().contains(testCard))
+				counter++;
+		}
+		Assert.assertEquals(1, counter);
+	}
 }
