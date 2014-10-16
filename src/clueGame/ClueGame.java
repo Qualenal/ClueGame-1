@@ -18,6 +18,8 @@ public class ClueGame {
 	private String cardFile;
 	private String playerFile;
 	private ArrayList<Card> deck;
+	private ArrayList<Player> players;
+	private HumanPlayer human;
 
 
 	public ClueGame(String mapFile, String roomFile, String cardFile, String playerFile) {
@@ -29,6 +31,7 @@ public class ClueGame {
 		clueBoard = new Board();
 		rooms = new LinkedHashMap<Character, String>();
 		deck = new ArrayList<Card>();
+		players = new ArrayList<Player>();
 	}
 
 	public void loadConfigFiles() {
@@ -37,6 +40,7 @@ public class ClueGame {
 			loadCardConfig();
 			loadRoomConfig();
 			clueBoard.loadBoardConfig(mapFile);
+			loadPlayerConfig();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -103,8 +107,18 @@ public class ClueGame {
 			deck.add(newCard);
 		}
 	}
+	
+	public void loadPlayerConfig() throws BadConfigFormatException{
+		
+	}
 	public ArrayList<Card> getDeck() {
 		return deck;
+	}
+	public ArrayList<Player> getPlayers(){
+		return players;
+	}
+	public HumanPlayer getHuman(){
+		return human;
 	}
 	
 }
