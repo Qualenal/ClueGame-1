@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
 import clueGame.Card.CardType;
@@ -20,6 +21,7 @@ public class ClueGame {
 	private ArrayList<Card> deck;
 	private ArrayList<Player> players;
 	private HumanPlayer human;
+	private Solution solution;
 
 
 	public ClueGame(String mapFile, String roomFile, String cardFile, String playerFile) {
@@ -148,8 +150,48 @@ public class ClueGame {
 			players.add(npc);
 		}
 	}
+	
 	public void deal(){
+		//Need a random generator
+		Random randomizer = new Random();
+		//Need to give the solution 3 cards of each type
+		ArrayList<Card> personList = new ArrayList<Card>();
+		ArrayList<Card> weaponList = new ArrayList<Card>();
+		ArrayList<Card> roomList = new ArrayList<Card>();
+		for(Card c : deck){
+			if(c.getType() == CardType.PERSON)
+				personList.add(c);
+			if(c.getType() == CardType.ROOM)
+				roomList.add(c);
+			if(c.getType() == CardType.WEAPON)
+				weaponList.add(c);
+		}
 		
+		//Add one of each type to the solution and remove from the deck
+		Card personSol = personList.get(randomizer.nextInt(personList.size()));
+		String person = personSol.getName();
+		deck.remove(personSol);
+		Card roomSol = roomList.get(randomizer.nextInt(roomList.size()));
+		String room = roomSol.getName();
+		deck.remove(roomSol);
+		Card weaponSol = weaponList.get(randomizer.nextInt(weaponList.size()));
+		String weapon = weaponSol.getName();
+		deck.remove(weaponSol);
+		solution = new Solution(room,weapon,person);
+		
+		//Enclose the whole code in a while loop so that the deck will empty
+		while(!deck.isEmpty()){
+			//The plan is to iterate through the player list
+			for(Player p : players){
+				//We are done if the deck is empty
+				if(deck.isEmpty())
+					break;
+				//Get a random card, add it, and then remove it from the deck
+				Card randomCard = deck.get(randomizer.nextInt(deck.size()));
+				p.addCard(randomCard);
+				deck.remove(randomCard);
+			}
+		} 
 	}
 	public ArrayList<Card> getDeck() {
 		return deck;
@@ -160,5 +202,7 @@ public class ClueGame {
 	public HumanPlayer getHuman(){
 		return human;
 	}
-	
+	public Solution getSolution(){
+		return solution;
+	}
 }

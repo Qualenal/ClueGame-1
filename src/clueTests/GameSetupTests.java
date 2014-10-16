@@ -3,7 +3,7 @@ package clueTests;
 import java.util.ArrayList;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import clueGame.Board;
@@ -15,15 +15,15 @@ import clueGame.HumanPlayer;
 import clueGame.Player;
 
 public class GameSetupTests {
-	private static Board board;
-	private static ClueGame game;
+	private Board board;
+	private ClueGame game;
 	public static int NUM_CARDS = 22;
 	public static int NUM_WEAPONS = 8;
 	public static int NUM_PERSONS = 6;
 	public static int NUM_ROOMS = 8;
 
-	@BeforeClass
-	public static void setUp() {
+	@Before
+	public void setUp() {
 		game = new ClueGame("OurClueLayout.csv", "OurClueLegend.txt","ClueCards.txt","CluePlayers.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
@@ -99,11 +99,12 @@ public class GameSetupTests {
 	
 	@Test
 	public void testDeal(){
+		//
 		//Deal the cards
 		game.deal();
 		//Check that the deck is empty
 		Assert.assertTrue(game.getDeck().isEmpty());
-		//Number of Cars 22 / Number of Players 6, each player should get 3 to 4 cards
+		//Number of Cards 19 / Number of Players 6, each player should get 3 to 4 cards
 		//Check to make sure each player has 3 or 4 cards
 		ArrayList<Player> players = game.getPlayers();
 		for(Player p : players){
