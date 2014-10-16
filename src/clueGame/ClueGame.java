@@ -193,6 +193,9 @@ public class ClueGame {
 			}
 		} 
 	}
+	public boolean checkAccusation(Solution solution){
+		return false;
+	}
 	public ArrayList<Card> getDeck() {
 		return deck;
 	}
@@ -202,7 +205,8 @@ public class ClueGame {
 	public HumanPlayer getHuman(){
 		return human;
 	}
-	public Solution getSolution(){
-		return solution;
+	public void setSolution(Solution solution){
+		//Testing only
+		this.solution = solution;
 	}
 }
