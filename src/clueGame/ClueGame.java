@@ -109,7 +109,44 @@ public class ClueGame {
 	}
 	
 	public void loadPlayerConfig() throws BadConfigFormatException{
-		
+		Scanner in = null;
+		try{
+			FileReader fileIn = new FileReader(playerFile);
+			in = new Scanner(fileIn);
+		} catch(FileNotFoundException e){
+			System.err.println(e.getLocalizedMessage());
+		}
+		//The first player must be a human player
+		String[] parts = in.nextLine().split(",");
+		if(parts.length != 4)
+			throw new BadConfigFormatException();
+		//Use Integers to parse the x and y values
+		int x = 0,y = 0;
+		try{
+			x = Integer.parseInt(parts[1]);
+			y = Integer.parseInt(parts[2]);
+		} catch(NumberFormatException e){
+			System.err.println(e.getLocalizedMessage());
+			System.exit(0);
+		}
+		human = new HumanPlayer(parts[0],parts[3],x,y);
+		players.add(0, human);
+		while(in.hasNextLine()){
+			//Now add all of the computer players
+			parts = in.nextLine().split(",");
+			if(parts.length != 4)
+				throw new BadConfigFormatException();
+			//Use Integers to parse the x and y values
+			try{
+				x = Integer.parseInt(parts[1]);
+				y = Integer.parseInt(parts[2]);
+			} catch(NumberFormatException e){
+				System.err.println(e.getLocalizedMessage());
+				System.exit(0);
+			}
+			ComputerPlayer npc = new ComputerPlayer(parts[0],parts[3],x,y);
+			players.add(npc);
+		}
 	}
 	public ArrayList<Card> getDeck() {
 		return deck;
