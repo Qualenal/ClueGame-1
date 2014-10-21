@@ -38,4 +38,9 @@ public class GameActionTests {
 		Assert.assertFalse(game.checkAccusation(testSolution));
 	}
 
+	@Test
+	public void disproveSuggestionTests(){
+		//Set the game solution
+		
+	}
 }
