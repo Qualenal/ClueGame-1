@@ -1,0 +1,101 @@
+commit a77d9f320786d0baa10f9ba88acf99ccf851d7c1
+Author: Sam Kennedy <skennedy@mines.edu>
+Date:   Thu Oct 16 13:19:17 2014 -0600
+
+    Accusation tests passing
+
+commit 8f51b2f861117cf88546d46505d846568b9a764f
+Author: Sam Kennedy <skennedy@mines.edu>
+Date:   Thu Oct 16 13:15:11 2014 -0600
+
+    CheckAccusation failing test written
+
+commit 4a1d5e8ded808bb79caf87c61012b25b293429f7
+Author: Sam Kennedy <skennedy@mines.edu>
+Date:   Thu Oct 16 12:59:42 2014 -0600
+
+    Clue Deal tests are passing. Gamesetup now uses @Before
+
+commit c4bfee9cb1e65195a003f3369a09ab5de37104bc
+Author: Sam Kennedy <skennedy@mines.edu>
+Date:   Thu Oct 16 11:16:05 2014 -0600
+
+    Deal Failing Tests are written
+
+commit 52cbf591d2b64c77fa61f8bc458861b02a2eef3e
+Author: Sam Kennedy <skennedy@mines.edu>
+Date:   Wed Oct 15 23:49:11 2014 -0600
+
+    Player Load tests are passing.
+
+commit 4c5cb20d9d2d1562db2dad660ce51565c0d43d1a
+Author: Sam Kennedy <skennedy@mines.edu>
+Date:   Wed Oct 15 23:32:13 2014 -0600
+
+    Failing tests for the players are now completed
+
+commit b4a56d27dc0f8af8d1410ec2e79a400368d17e7a
+Author: Sam Kennedy <skennedy@mines.edu>
+Date:   Wed Oct 15 18:27:32 2014 -0600
+
+    Card Setup tests are passing
+
+commit 2d325ede17df9d9bbc694cd9e70d6ed55589a90e
+Author: Sam Kennedy <skennedy@mines.edu>
+Date:   Mon Oct 13 21:25:41 2014 -0600
+
+    Failing card load test written
+
+commit dc7da2700b69f768fb6d8fd99f31c78fc4acb0e9
+Author: Sam Kennedy <skennedy@mines.edu>
+Date:   Mon Oct 13 17:19:23 2014 -0600
+
+    Removed classpath and project
+
+commit 1bcd6cc88335ef6f5a8d8043cdee639419f27aed
+Author: unknown <skennedy@MZ022-04.adit.mines.edu>
+Date:   Thu Oct 9 12:01:11 2014 -0600
+
+    Removed eclipse file system
+
+commit 1e16a75e4e0267d7033a4386e260ab85787d9323
+Author: unknown <skennedy@MZ022-04.adit.mines.edu>
+Date:   Thu Oct 9 11:57:18 2014 -0600
+
+    New config files, and gitignore
+
+commit 7c78aff69dd7bc648ec87d489d8444e2735a93e6
+Author: Andre Pacheco <apacheco@mymail.mines.edu>
+Date:   Sun Oct 5 20:28:41 2014 -0600
+
+    All tests passing; Target algorithm fixed.
+
+commit 4d43b54ea4c6f2ceaabd9568d5e468201f91c0ee
+Author: Andre Pacheco <apacheco@mymail.mines.edu>
+Date:   Thu Oct 2 13:58:02 2014 -0600
+
+    All tests in target, except for TwoSteps, are working.
+
+commit 1580ecefb33eee7d8f66d53d657913aa6fa14ebb
+Author: pachecoae <apacheco@mymail.mines.edu>
+Date:   Thu Oct 2 13:00:29 2014 -0600
+
+    Updated the Target algorithm to remove the initial cell; Now passing some target tests.
+
+commit fa8c444a8c6e1ef28ab863a815f2a9223ad47f59
+Author: pachecoae <apacheco@mymail.mines.edu>
+Date:   Thu Oct 2 12:28:34 2014 -0600
+
+    Updated BadTestII and CR_BoardAdjTargetTests to contain unique tests. Formatting was also altered sleightly.
+
+commit 4609f843bb9c200faed7b83cb3daf87922ff10b3
+Author: pachecoae <apacheco@mymail.mines.edu>
+Date:   Thu Oct 2 12:09:15 2014 -0600
+
+    Now passing adjacency tests; Working on target tests and fixing target algorithm.
+
+commit 8dd621757b6d579edfcb9a4387d26bb19c0cbcd9
+Author: pachecoae <apacheco@mymail.mines.edu>
+Date:   Wed Oct 1 22:55:28 2014 -0600
+
+    Initial commit.
