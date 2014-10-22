@@ -11,6 +11,8 @@ import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.Card;
+import clueGame.Card.CardType;
 import clueGame.ClueGame;
 import clueGame.ComputerPlayer;
 import clueGame.Solution;
@@ -68,14 +70,14 @@ public class GameActionTests {
 				loc3++;
 			else
 				fail("No location picked.");
-			//Assert the total locations picked is 100
-			Assert.assertEquals(100, loc0+loc1+loc2+loc3);
-			//Assert that each location was picked more than once
-			Assert.assertTrue(loc0 > 5);
-			Assert.assertTrue(loc1 > 5);
-			Assert.assertTrue(loc2 > 5);
-			Assert.assertTrue(loc3 > 5);
 		}
+		//Assert the total locations picked is 100
+		Assert.assertEquals(100, loc0+loc1+loc2+loc3);
+		//Assert that each location was picked more than once
+		Assert.assertTrue(loc0 > 5);
+		Assert.assertTrue(loc1 > 5);
+		Assert.assertTrue(loc2 > 5);
+		Assert.assertTrue(loc3 > 5);
 	}
 	
 	@Test
@@ -92,13 +94,28 @@ public class GameActionTests {
 	}
 
 	@Test
-	public void disproveSuggestionTests(){
-		//Set the game solution
-		Solution gameSolution = new Solution("Kitchen","Knife","Mr. Green");
-		game.setSolution(gameSolution);
-		
-		Solution testSolution = new Solution("Kitchen","Knife","Mr. Green");
-		Assert.assertTrue(game.checkAccusation(testSolution));
-		
+	public void testVisitedRoomNotSelected(){
+		ComputerPlayer testPlayer = new ComputerPlayer("Test","BLACK",21,7);
+		testPlayer.setLastRoomVisited('K');
+		board.calcTargets(21, 7, 1);
+		int loc0 = 0;
+		int loc1 = 0;
+		for(int i = 0; i < 50; i++){
+			BoardCell testCell = testPlayer.pickLocation(board.getTargets());
+			if(testCell == board.getCellAt(22, 7))
+				loc0++;
+			if(testCell == board.getCellAt(21, 8))
+				loc1++;
+			Assert.assertFalse(testCell == board.getCellAt(21, 6));
+		}
+		Assert.assertTrue(loc0 > 10);
+		Assert.assertTrue(loc1 > 10);
+	}
+	@Test
+	public void disproveSuggetionBasic(){
+		ComputerPlayer testPlayer = new ComputerPlayer("Test","BLACK",21,7);
+		testPlayer.addCard(new Card("Knife",CardType.WEAPON));
+		Card testCard = testPlayer.disproveSuggestion("Mr.Green", "Kitchen", "Knife");
+		Assert.assertTrue(testCard.equals(new Card("Knife",CardType.WEAPON)));
 	}
 }
