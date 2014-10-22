@@ -194,6 +194,18 @@ public class ClueGame {
 		} 
 	}
 	public Card handleSuggestion(String person, String room, String weapon, Player accusingPlayer){
+		//Find the index of the accusingPlayer
+		int index = players.indexOf(accusingPlayer);
+		//Split into 2 parts, from player to end of list, and beginning to player
+		for(int i = index+1; i < players.size(); i++){
+			if(players.get(i).disproveSuggestion(person, room, weapon) != null)
+				return players.get(i).disproveSuggestion(person, room, weapon);
+		}
+		for(int i = 0; i < index; i++){
+			if(players.get(i).disproveSuggestion(person, room, weapon) != null)
+				return players.get(i).disproveSuggestion(person, room, weapon);
+		}
+		//If nothing got revealed, return null
 		return null;
 	}
 	public boolean checkAccusation(Solution solution){
