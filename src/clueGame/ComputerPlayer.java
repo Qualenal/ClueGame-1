@@ -34,6 +34,9 @@ public class ComputerPlayer extends Player {
 		}
 		return pickedCell;
 	}
+	public void createSuggestion(){
+		
+	}
 	@Override
 	public Card disproveSuggestion(String person, String room, String weapon) {
 		// TODO Auto-generated method stub

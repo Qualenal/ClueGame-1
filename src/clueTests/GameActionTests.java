@@ -2,6 +2,7 @@ package clueTests;
 
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,17 +16,20 @@ import clueGame.Card;
 import clueGame.Card.CardType;
 import clueGame.ClueGame;
 import clueGame.ComputerPlayer;
+import clueGame.Player;
 import clueGame.Solution;
 
 public class GameActionTests {
 	private Board board;
 	private ClueGame game;
+	private ArrayList<Player> players;
 	@Before
 	public void setUp() {
 		game = new ClueGame("OurClueLayout.csv", "OurClueLegend.txt","ClueCards.txt","CluePlayers.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
 		board.calcAdjacencies();
+		players = game.getPlayers();
 	}
 
 	@Test
@@ -115,7 +119,75 @@ public class GameActionTests {
 	public void disproveSuggetionBasic(){
 		ComputerPlayer testPlayer = new ComputerPlayer("Test","BLACK",21,7);
 		testPlayer.addCard(new Card("Knife",CardType.WEAPON));
-		Card testCard = testPlayer.disproveSuggestion("Mr.Green", "Kitchen", "Knife");
+		testPlayer.addCard(new Card("Bat",CardType.WEAPON));
+		testPlayer.addCard(new Card("Ballroom",CardType.ROOM));
+		testPlayer.addCard(new Card("Billiard Room",CardType.ROOM));
+		testPlayer.addCard(new Card("Miss Scarlet",CardType.PERSON));
+		testPlayer.addCard(new Card("Professor Plum",CardType.PERSON));
+		// Test a weapon, room and person
+		Card testCard = testPlayer.disproveSuggestion("Mr. Green", "Kitchen", "Knife");
 		Assert.assertTrue(testCard.equals(new Card("Knife",CardType.WEAPON)));
+		testCard = testPlayer.disproveSuggestion("Mr. Green", "Ballroom", "Lead Pipe");
+		Assert.assertTrue(testCard.equals(new Card("Ballroom",CardType.ROOM)));
+		testCard = testPlayer.disproveSuggestion("Professor Plum", "Kitchen", "Lead Pipe");
+		Assert.assertTrue(testCard.equals(new Card("Professor Plum",CardType.PERSON)));
+		// Make sure if they don't have the card, it's null
+		testCard = testPlayer.disproveSuggestion("Mr.Green", "Kitchen", "Lead Pipe");
+		Assert.assertNull(testCard);
+		
+	}
+	@Test
+	public void randomDisproveSelecation(){
+		ComputerPlayer testPlayer = new ComputerPlayer("Test","BLACK",21,7);
+		testPlayer.addCard(new Card("Knife",CardType.WEAPON));
+		testPlayer.addCard(new Card("Mr. Green",CardType.PERSON));
+		testPlayer.addCard(new Card("Kitchen",CardType.ROOM));
+		int card0 = 0;
+		int card1 = 0;
+		int card2 = 0;
+		Card testCard;
+		for(int i = 0; i < 50; i++){
+			testCard = testPlayer.disproveSuggestion("Mr. Green", "Kitchen", "Knife");
+			if(testCard.equals(new Card("Knife",CardType.WEAPON)))
+				card0++;
+			else if(testCard.equals(new Card("Mr. Green",CardType.PERSON)))
+				card1++;
+			else if(testCard.equals(new Card("Kitchen",CardType.ROOM)))
+				card2++;
+			else
+				fail("Didn't show a card");
+		}
+		Assert.assertTrue(card0 > 8);
+		Assert.assertTrue(card1 > 8);
+		Assert.assertTrue(card2 > 8);
+	}
+	@Test
+	public void testOnlyOneQuery(){
+		// Order should be Plum then Mustard, give them both cards that satisfy the suggestion, make sure Plum's card is returned
+		players.get(1).addCard(new Card("Knife",CardType.WEAPON));
+		players.get(2).addCard(new Card("Kitchen",CardType.ROOM));
+		Card answer = game.handleSuggestion("Mr. Green", "Kitchen", "Knife", players.get(0));
+		Assert.assertTrue(answer.equals(new Card("Knife",CardType.WEAPON)));
+	}
+	@Test
+	public void testHumanDisprovesSuggetion(){
+		//Give the human and a couple others cards, test that the human can disprove
+		//This should also test that all players are queried in order
+		players.get(0).addCard(new Card("Ballroom",CardType.ROOM));
+		players.get(1).addCard(new Card("Knife",CardType.WEAPON));
+		players.get(2).addCard(new Card("Kitchen",CardType.ROOM));
+		players.get(3).addCard(new Card("Bat",CardType.WEAPON));
+		Card answer = game.handleSuggestion("Miss Scarlet", "Ballroom", "Shuriken", players.get(1));
+		Assert.assertTrue(answer.equals(new Card("Ballroom",CardType.ROOM)));
+	}
+	@Test
+	public void testNullIfAccuserHasCard(){
+		//This test should return null, because the accusing player has the card
+		players.get(0).addCard(new Card("Ballroom",CardType.ROOM));
+		players.get(1).addCard(new Card("Knife",CardType.WEAPON));
+		players.get(2).addCard(new Card("Kitchen",CardType.ROOM));
+		players.get(3).addCard(new Card("Bat",CardType.WEAPON));
+		Card answer = game.handleSuggestion("Miss Scarlet", "Ballroom", "Shuriken", players.get(0));
+		Assert.assertNull(answer);
 	}
 }

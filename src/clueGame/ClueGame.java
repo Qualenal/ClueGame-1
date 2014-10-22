@@ -193,6 +193,9 @@ public class ClueGame {
 			}
 		} 
 	}
+	public Card handleSuggestion(String person, String room, String weapon, Player accusingPlayer){
+		return null;
+	}
 	public boolean checkAccusation(Solution solution){
 		if (!this.solution.getPerson().equals(solution.getPerson())) 
 			return false;
