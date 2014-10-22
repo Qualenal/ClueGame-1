@@ -137,7 +137,7 @@ public class GameActionTests {
 		
 	}
 	@Test
-	public void randomDisproveSelecation(){
+	public void randomDisproveSelection(){
 		ComputerPlayer testPlayer = new ComputerPlayer("Test","BLACK",21,7);
 		testPlayer.addCard(new Card("Knife",CardType.WEAPON));
 		testPlayer.addCard(new Card("Mr. Green",CardType.PERSON));
@@ -190,4 +190,76 @@ public class GameActionTests {
 		Card answer = game.handleSuggestion("Miss Scarlet", "Ballroom", "Shuriken", players.get(0));
 		Assert.assertNull(answer);
 	}
+	@Test
+	public void AITestOneAccusation(){
+		String[] result = {"Colonel Mustard", "Shuriken", "Lounge"};
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Professor Plum",CardType.PERSON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Mr. Green",CardType.PERSON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Mrs. White",CardType.PERSON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Mrs. Peacock",CardType.PERSON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Miss Scarlet",CardType.PERSON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Conservatory",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Kitchen",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Ballroom",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Billiard Room",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Library",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Study",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Library",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Study",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Dining Room",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Lead Pipe",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Pistol",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Knife",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Candlestick",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Wrench",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Poison",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Bat",CardType.WEAPON));
+		String[] suggestion = ((ComputerPlayer) players.get(1)).createSuggestion();
+		Assert.assertArrayEquals(result, suggestion);
+	}
+	
+	@Test
+	public void AITestMultiAccusation(){
+		String[] result1 = {"Colonel Mustard", "Shuriken", "Lounge"};
+		String[] result2 = {"Miss Scarlet", "Shuriken", "Lounge"};
+		String[] suggestion;
+		int res1 = 0;
+		int res2 = 0;
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Professor Plum",CardType.PERSON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Mr. Green",CardType.PERSON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Mrs. White",CardType.PERSON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Mrs. Peacock",CardType.PERSON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Conservatory",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Kitchen",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Ballroom",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Billiard Room",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Library",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Study",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Library",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Study",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Dining Room",CardType.ROOM));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Lead Pipe",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Pistol",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Knife",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Candlestick",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Wrench",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Poison",CardType.WEAPON));
+		((ComputerPlayer) players.get(1)).seeCard(new Card("Bat",CardType.WEAPON));
+
+		for(int i = 0; i < 50; i++){
+			suggestion = ((ComputerPlayer) players.get(1)).createSuggestion();
+			if(suggestion[0].equals(result1[0]) && suggestion[1].equals(result1[1]) && suggestion[2].equals(result1[2]))
+				res1++;
+			else if(suggestion[0].equals(result2[0]) && suggestion[1].equals(result2[1]) && suggestion[2].equals(result2[2]))
+				res2++;
+			else
+				fail("Result doesn't match");
+		}
+		Assert.assertTrue(res1 > 12);
+		Assert.assertTrue(res2 > 12);
+	}
+	
+	
+	
+	
 }

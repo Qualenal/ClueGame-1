@@ -1,17 +1,28 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
+
+import clueGame.Card.CardType;
 
 public class ComputerPlayer extends Player {
 	private char lastRoomVisited;
+	private String cardFile;
+	private String[] suggestion = new String[3];
+	private Set<Card> seenCards = new HashSet<Card>();
+	private ArrayList<Card> personDeck;
+	private ArrayList<Card> weaponDeck;
 	
 	public ComputerPlayer(String name, String color, int x, int y) {
 		super(name, color, x, y);
 		lastRoomVisited = ' ';
 	}
+	
 	public BoardCell pickLocation(Set<BoardCell> targets){
 		Random randomizer = new Random();
 		BoardCell pickedCell = null;
@@ -35,8 +46,12 @@ public class ComputerPlayer extends Player {
 		}
 		return pickedCell;
 	}
-	public void createSuggestion(){
-		
+
+	public String[] createSuggestion(){
+		suggestion[0]= "testperson";
+		suggestion[1]= "testweapon";
+		suggestion[2]= "testroom";
+		return suggestion;
 	}
 	@Override
 	public Card disproveSuggestion(String person, String room, String weapon) {
@@ -58,6 +73,46 @@ public class ComputerPlayer extends Player {
 	}
 	public void setLastRoomVisited(char lastRoomVisited) {
 		this.lastRoomVisited = lastRoomVisited;
+	}
+	
+	public void seeCard(Card card){
+		seenCards.add(card);
+	}
+	
+	public void loadChoices() throws BadConfigFormatException{
+		Scanner in = null;
+		try{
+		FileReader fileIn = new FileReader(cardFile);
+		in = new Scanner(fileIn);
+		} catch(FileNotFoundException e){
+			System.err.println(e.getLocalizedMessage());
+			System.exit(0);
+		}
+		while(in.hasNextLine()){
+			String nextLine = in.nextLine();
+			if(nextLine.equals("PEOPLE")){
+				//While loops for people and rooms
+				while(true){
+					nextLine = in.nextLine();
+					if(nextLine.equals("ROOMS"))
+						break;
+					Card newCard = new Card(nextLine,CardType.PERSON);
+					personDeck.add(newCard);
+				}
+				while(true){
+					nextLine = in.nextLine();
+					if(nextLine.equals("WEAPONS")){
+						//Advance past WEAPONS for the final iteration
+						nextLine = in.nextLine();
+						break;
+					}
+					Card newCard = new Card(nextLine,CardType.ROOM);
+				}
+			}
+			//Only thing left is the weapons
+			Card newCard = new Card(nextLine,CardType.WEAPON);
+			weaponDeck.add(newCard);
+		}
 	}
 	
 }

@@ -48,6 +48,10 @@ public class ClueGame {
 		}
 
 	}
+	
+	public String getCardFile(){
+		return cardFile;
+	}
 
 	public Board getBoard() {
 		return clueBoard;
