@@ -91,4 +91,14 @@ public class GameActionTests {
 		}
 	}
 
+	@Test
+	public void disproveSuggestionTests(){
+		//Set the game solution
+		Solution gameSolution = new Solution("Kitchen","Knife","Mr. Green");
+		game.setSolution(gameSolution);
+		
+		Solution testSolution = new Solution("Kitchen","Knife","Mr. Green");
+		Assert.assertTrue(game.checkAccusation(testSolution));
+		
+	}
 }
