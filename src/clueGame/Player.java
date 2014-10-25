@@ -60,7 +60,7 @@ public abstract class Player {
 		return y;
 	}
 	
-	public String getColor(){
-		return sColor;
+	public Color getColor(){
+		return color;
 	}
 }

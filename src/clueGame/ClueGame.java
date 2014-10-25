@@ -34,7 +34,7 @@ public class ClueGame extends JFrame{
 		this.cardFile = cardFile;
 		this.playerFile = playerFile;
 		
-		clueBoard = new Board();
+		clueBoard = new Board(this);
 		rooms = new LinkedHashMap<Character, String>();
 		deck = new ArrayList<Card>();
 		players = new ArrayList<Player>();

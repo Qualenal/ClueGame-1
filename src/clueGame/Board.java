@@ -21,17 +21,26 @@ public class Board extends JPanel{
 	private Map<Character, String> rooms;
 	private int numRows;
 	private int numColumns;
+	private ClueGame game;
+	
+	public static int SQUARE_LENGTH = 30;
 
-	public Map<BoardCell, LinkedList<BoardCell>> adjMtx = new LinkedHashMap<BoardCell, LinkedList<BoardCell>>(); // =
+	public Map<BoardCell, LinkedList<BoardCell>> adjMtx = new LinkedHashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private LinkedList<BoardCell> targets = new LinkedList<BoardCell>();
 	private boolean[][] visited;
 
-	// private BoardCell startingCell;
 
 	public Board() {
 		rooms = new LinkedHashMap<Character, String>();
 		numRows = 0;
 		numColumns = 0;
+	}
+	
+	public Board(ClueGame game){
+		rooms = new LinkedHashMap<Character, String>();
+		numRows = 0;
+		numColumns = 0;
+		this.game = game;
 	}
 
 	public BoardCell getCellAt(int row, int col) {
@@ -173,10 +182,17 @@ public class Board extends JPanel{
 	}
 	
 	public void paintComponent(Graphics g){
+		//Drawing the board with all the stuff
 		for(int i = 0; i < numRows; i++){
 			for(int j = 0; j < numColumns; j++){
 				grid[i][j].draw(g,this);
 			}
+		}
+		//Draw the players!
+		ArrayList<Player> players = game.getPlayers();
+		for(Player p : players){
+			g.setColor(p.getColor());
+			g.fillOval(p.getY()*SQUARE_LENGTH, p.getX()*SQUARE_LENGTH, SQUARE_LENGTH, SQUARE_LENGTH);
 		}
 	}
 
