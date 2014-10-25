@@ -1,3 +1,4 @@
+/*
 package clueGame;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -20,7 +21,7 @@ public class IntBoard {
 	    for (int j = 0; j < COL; j++) {
 		grid[i][j] = new BoardCell(i, j);
 	    }
-	}*/
+	}
 	calcAdjacencies();
     }
 
@@ -87,4 +88,4 @@ public class IntBoard {
     public LinkedList<BoardCell> getAdjList(BoardCell cell) {
 	return adjMtx.get(cell);
     }
-}
+}*/

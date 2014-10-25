@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,9 +11,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+
 import clueGame.Card.CardType;
 
-public class ClueGame {
+public class ClueGame extends JFrame{
 	private Map<Character, String> rooms;
 	private Board clueBoard;
 	private String mapFile;
@@ -34,6 +38,12 @@ public class ClueGame {
 		rooms = new LinkedHashMap<Character, String>();
 		deck = new ArrayList<Card>();
 		players = new ArrayList<Player>();
+		
+		//GUI stuff
+		setSize(new Dimension(1000,1000));
+		setTitle("Clue!");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		add(clueBoard, BorderLayout.CENTER);
 	}
 
 	public void loadConfigFiles() {
@@ -223,6 +233,14 @@ public class ClueGame {
 			return false;
 		
 		return true;
+	}
+	
+	//MAIN
+	public static void main(String[] args){
+		ClueGame game = new ClueGame("OurClueLayout.csv" ,"OurClueLegend.txt", "ClueCards.txt", "CluePlayers.txt");
+		game.setVisible(true);
+		game.loadConfigFiles();
+		game.repaint();
 	}
 	public ArrayList<Card> getDeck() {
 		return deck;

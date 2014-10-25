@@ -1,10 +1,13 @@
 package clueGame;
 
+import java.awt.Graphics;
+
 public abstract class BoardCell {
     public String cellName;
     public int row;
     public int col;
-
+    public static int SQUARE_LENGTH = 30;
+    
     public BoardCell(int row, int col, String boardString) {
 	this.row = row;
 	this.col = col;
@@ -33,8 +36,6 @@ public abstract class BoardCell {
 	return "(" + row + ", " + col + ")" + " " + cellName;
     }
 
-    public void draw() {
-
-    }
+    public abstract void draw(Graphics g, Board b);
 
 }
