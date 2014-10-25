@@ -1,6 +1,8 @@
 package clueGame;
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -16,12 +18,15 @@ import java.util.Set;
 
 import javax.swing.*;
 
+import com.sun.glass.events.MouseEvent;
+
 public class Board extends JPanel{
 	public BoardCell[][] grid;
 	private Map<Character, String> rooms;
 	private int numRows;
 	private int numColumns;
 	private ClueGame game;
+	
 	
 	public static int SQUARE_LENGTH = 30;
 
@@ -182,6 +187,7 @@ public class Board extends JPanel{
 	}
 	
 	public void paintComponent(Graphics g){
+		
 		//Drawing the board with all the stuff
 		for(int i = 0; i < numRows; i++){
 			for(int j = 0; j < numColumns; j++){
